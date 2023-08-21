@@ -3,7 +3,6 @@
 import * as cheerio from 'cheerio';
 import axios from 'axios';
 
-
 let searchString  = "Software Developer";
 let searchLoc = 'St%2BJohn%E2%80%99s%2C%2BNewfoundland%2Band%2BLabrador%2C%2BCanada'
 let geoID = '104233796'
@@ -11,11 +10,10 @@ let jobId = '3689800686'
 //Search via job title/location;
 let linkedInUrl = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${searchString}%2B&location=${searchLoc}&geoId=${geoID}&trk=public_jobs_jobs-search-bar_search-submit&start=0`
 //Search by job ID.
-let linkedInUrl2 = `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${jobId}`
+
 
 axios(linkedInUrl)
     .then(response => {
-
         let html = response.data;
         let $ = cheerio.load(html);
         let jobs = $('li');
@@ -41,8 +39,11 @@ axios(linkedInUrl)
                 "Job_ID": id,
             })
 
+            let linkedInUrl2 = `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${id}`
+
             //Go to url based on job id, and add wanted props to job object.
             axios(linkedInUrl2).then(response => {
+                //Loop over current 
                 for (let i = 0; i < linkedInJobs.length; i++) {                     
                     let response2 = response.data;
                     let $2 = cheerio.load(response2)
